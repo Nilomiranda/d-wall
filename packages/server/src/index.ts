@@ -7,6 +7,7 @@ import { PrismaClient } from '@prisma/client'
 import { ApolloServer } from 'apollo-server-koa';
 import { ApolloServerPluginDrainHttpServer } from 'apollo-server-core';
 import * as http from "http";
+import {rootSchema} from "./graphql/rootQuery";
 
 const prisma = new PrismaClient()
 
@@ -15,8 +16,7 @@ async function startApolloServer() {
 
   const httpServer = http.createServer();
   const server = new ApolloServer({
-    typeDefs: [],
-    resolvers: [],
+    schema: rootSchema,
     plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
   });
 
@@ -26,12 +26,8 @@ async function startApolloServer() {
 
   server.applyMiddleware({ app });
   httpServer.on('request', app.callback());
-  await new Promise(() => httpServer.listen({ port: 4000 }, () => null));
-  console.log(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`);
-
-  app.listen(process.env.PORT, () => {
-    console.log(`Application running on port ${process.env.PORT}`)
-  })
+  await new Promise((resolve) => httpServer.listen({ port: process.env.PORT }, () => resolve(1)));
+  console.log(`🚀 Server ready at http://localhost:${process.env.PORT}${server.graphqlPath}`);
 
   prisma?.$connect().then(() => {
     console.log("Successfully connected to prisma client")
@@ -49,4 +45,10 @@ async function startApolloServer() {
   app.use(router.routes())
 }
 
-startApolloServer()
+console.log('🟢 About to start apollo server...')
+startApolloServer().then(() => {
+  console.log('✅ Apollo server started')
+}).catch((err) => {
+  console.error('🔴 Error starting apollo server', err)
+})
+
