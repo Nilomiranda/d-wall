@@ -14,9 +14,19 @@ const prisma = new PrismaClient()
 async function startApolloServer() {
   dotenv.config()
 
+  prisma?.$connect().then(() => {
+    console.log("🥳 Successfully connected to prisma client")
+  }).catch(err => {
+    console.error("🔴 Error trying to connect to prisma client", err)
+  })
+
   const httpServer = http.createServer();
   const server = new ApolloServer({
     schema: rootSchema,
+    context: ({ ctx }) => {
+      Object.assign(ctx, { prisma })
+      return ctx
+    },
     plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
   });
 
@@ -28,12 +38,6 @@ async function startApolloServer() {
   httpServer.on('request', app.callback());
   await new Promise((resolve) => httpServer.listen({ port: process.env.PORT }, () => resolve(1)));
   console.log(`🚀 Server ready at http://localhost:${process.env.PORT}${server.graphqlPath}`);
-
-  prisma?.$connect().then(() => {
-    console.log("Successfully connected to prisma client")
-  }).catch(err => {
-    console.error("Error trying to connect to prisma client", err)
-  })
 
   app.context.prisma = prisma
 

@@ -6,9 +6,9 @@ export const rootSchema = new GraphQLSchema({
     fields: {
       test: {
         type: GraphQLString,
-        resolve() {
-          return 'API online!';
-        },
+        resolve(){
+          return 'API Online!'
+        }
       },
     },
   })

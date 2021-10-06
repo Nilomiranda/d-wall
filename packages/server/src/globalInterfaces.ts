@@ -1,7 +1,7 @@
+import type {Prisma, PrismaClient } from '@prisma/client'
 import {ParameterizedContext} from "koa";
-import type { PrismaClient } from '@prisma/client'
 import Router from "koa-router";
 
 export interface KoaContext extends ParameterizedContext<any, Router.IRouterParamContext<any, {}>, any> {
-  prisma: PrismaClient
+  prisma: PrismaClient<Prisma.PrismaClientOptions, never, Prisma.RejectOnNotFound | Prisma.RejectPerOperation>
 }
