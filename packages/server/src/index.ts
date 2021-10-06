@@ -4,27 +4,49 @@ import cors from '@koa/cors'
 import router from './routes'
 import bodyParser from 'koa-bodyparser'
 import { PrismaClient } from '@prisma/client'
+import { ApolloServer } from 'apollo-server-koa';
+import { ApolloServerPluginDrainHttpServer } from 'apollo-server-core';
+import * as http from "http";
 
 const prisma = new PrismaClient()
-const app = new Koa()
 
-dotenv.config()
+async function startApolloServer() {
+  dotenv.config()
 
-app.listen(process.env.PORT, () => {
-  console.log(`Application running on port ${process.env.PORT}`)
-})
+  const httpServer = http.createServer();
+  const server = new ApolloServer({
+    typeDefs: [],
+    resolvers: [],
+    plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
+  });
 
-prisma?.$connect().then(() => {
-  console.log("Successfully connected to prisma client")
-}).catch(err => {
-  console.error("Error trying to connect to prisma client", err)
-})
+  await server.start();
 
-app.context.prisma = prisma
+  const app = new Koa();
 
-app.use(cors({
-  allowMethods: ['OPTIONS', 'GET', 'HEAD', 'POST', 'DELETE', 'PATCH'],
-}))
+  server.applyMiddleware({ app });
+  httpServer.on('request', app.callback());
+  await new Promise(() => httpServer.listen({ port: 4000 }, () => null));
+  console.log(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`);
 
-app.use(bodyParser())
-app.use(router.routes())
+  app.listen(process.env.PORT, () => {
+    console.log(`Application running on port ${process.env.PORT}`)
+  })
+
+  prisma?.$connect().then(() => {
+    console.log("Successfully connected to prisma client")
+  }).catch(err => {
+    console.error("Error trying to connect to prisma client", err)
+  })
+
+  app.context.prisma = prisma
+
+  app.use(cors({
+    allowMethods: ['OPTIONS', 'GET', 'HEAD', 'POST', 'DELETE', 'PATCH'],
+  }))
+
+  app.use(bodyParser())
+  app.use(router.routes())
+}
+
+startApolloServer()
