@@ -1,4 +1,7 @@
-import {GraphQLObjectType, GraphQLSchema, GraphQLString} from "graphql";
+import {GraphQLList, GraphQLObjectType, GraphQLSchema, GraphQLString} from "graphql";
+import {Message} from "../message/model";
+import {listMessages} from "../message/resolvers";
+import {createMessage} from "../message/mutations/createMessageMutation";
 
 export const rootSchema = new GraphQLSchema({
   query: new GraphQLObjectType({
@@ -10,6 +13,19 @@ export const rootSchema = new GraphQLSchema({
           return 'API Online!'
         }
       },
+      messages: {
+        type: new GraphQLList(Message),
+        resolve(parent, args, context) {
+          return listMessages(context)
+        }
+      },
+
     },
+  }),
+  mutation: new GraphQLObjectType({
+    name: 'RooMutation',
+    fields: {
+      createMessage,
+    }
   })
 })
