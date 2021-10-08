@@ -54,13 +54,15 @@ function App() {
           { error ? <strong>Error loading messages</strong> : null }
 
           {
-            !loading && !error && data?.messages?.length ? data?.messages?.map(message => (
+            data?.messages?.length ? data?.messages?.map(message => (
               <div key={message?.id}>
                 <small>{message?.name} said:</small>
                 <p>{message?.content}</p>
               </div>
-            )) : <i>No messages to show</i>
+            )) : null
           }
+
+          { !loading && !error && !data?.messages?.length ? <i>No message to show</i> : null }
         </div>
       </div>
 
