@@ -54,7 +54,7 @@ function App() {
           { error ? <strong>Error loading messages</strong> : null }
 
           {
-            data?.messages?.length ? data?.messages?.map(message => (
+            !loading && !error && data?.messages?.length ? data?.messages?.map(message => (
               <div key={message?.id}>
                 <small>{message?.name} said:</small>
                 <p>{message?.content}</p>
