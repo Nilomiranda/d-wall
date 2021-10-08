@@ -45,18 +45,23 @@ function App() {
     <form onSubmit={handleSubmit}>
       <div>
         <h1>Messages</h1>
-        { loading ? <strong>Loading messages...</strong> : null }
+        <div style={{
+          maxHeight: '500px',
+          overflowY: 'auto',
+        }}>
+          { loading ? <strong>Loading messages...</strong> : null }
 
-        { error ? <strong>Error loading messages</strong> : null }
+          { error ? <strong>Error loading messages</strong> : null }
 
-        {
-          data?.messages?.length ? data?.messages?.map(message => (
-            <div key={message?.id}>
-              <small>{message?.name}</small>
-              <p>{message?.content}</p>
-            </div>
-          )) : <i>No messages to show</i>
-        }
+          {
+            data?.messages?.length ? data?.messages?.map(message => (
+              <div key={message?.id}>
+                <small>{message?.name} said:</small>
+                <p>{message?.content}</p>
+              </div>
+            )) : <i>No messages to show</i>
+          }
+        </div>
       </div>
 
       <br />
