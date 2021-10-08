@@ -1,44 +1,51 @@
-import { useState } from 'react'
-import logo from './logo.svg'
-import './App.css'
+import {FormEvent, useEffect, useState} from "react";
+import {gql, useQuery} from "@apollo/client";
+
+const MESSAGES_QUERY = gql`
+    query GetMessages {
+        messages {
+            id
+            content
+            name
+        }
+    }
+`
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [name, setName] = useState('')
+  const [content, setContent] = useState('')
+
+  const { loading, error, data } = useQuery(MESSAGES_QUERY)
+
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event?.preventDefault()
+  }
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>Hello Vite + React!</p>
-        <p>
-          <button type="button" onClick={() => setCount((count) => count + 1)}>
-            count is: {count}
-          </button>
-        </p>
-        <p>
-          Edit <code>App.tsx</code> and save to test HMR updates.
-        </p>
-        <p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-          {' | '}
-          <a
-            className="App-link"
-            href="https://vitejs.dev/guide/features.html"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Vite Docs
-          </a>
-        </p>
-      </header>
-    </div>
+    <form onSubmit={handleSubmit}>
+      <div>
+        { loading ? <strong>Loading messages...</strong> : null }
+
+        { error ? <strong>Error loading messages</strong> : null }
+
+        {
+          data?.messages?.length ? data?.messages?.map(message => (
+            <div key={message?.id}>
+              <small>{message?.name}</small>
+              <p>{message?.content}</p>
+            </div>
+          )) : null
+        }
+      </div>
+
+      <input placeholder="Name (optional)" type="text" value={name} onChange={({ target: { value } }) => setName(value)} />
+      <br />
+
+      <textarea placeholder="Your message..." value={content} onChange={({ target: { value } }) => setContent(value)} />
+      <br />
+
+      <button type="submit">Publish</button>
+    </form>
   )
 }
 

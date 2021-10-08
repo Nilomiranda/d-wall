@@ -2,11 +2,13 @@
   "name": "client",
   "version": "0.0.0",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --port 4000",
     "build": "tsc && vite build",
     "serve": "vite preview"
   },
   "dependencies": {
+    "@apollo/client": "^3.4.16",
+    "graphql": "^15.6.1",
     "react": "^17.0.0",
     "react-dom": "^17.0.0"
   },
