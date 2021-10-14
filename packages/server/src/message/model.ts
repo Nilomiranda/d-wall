@@ -1,4 +1,4 @@
-import {GraphQLID, GraphQLNonNull, GraphQLObjectType, GraphQLString} from "graphql";
+import {GraphQLFloat, GraphQLID, GraphQLInt, GraphQLNonNull, GraphQLObjectType, GraphQLString} from "graphql";
 
 export const Message = new GraphQLObjectType({
   name: 'MessagesQuery',
@@ -22,7 +22,7 @@ export const Message = new GraphQLObjectType({
       }
     },
     createdAt: {
-      type: GraphQLNonNull(GraphQLString),
+      type: GraphQLNonNull(GraphQLFloat),
       resolve(parent) {
         return parent?.createdAt
       }
