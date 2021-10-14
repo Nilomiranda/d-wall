@@ -1,5 +1,9 @@
 import {FormEvent, useState} from "react";
 import {gql, useMutation, useQuery} from "@apollo/client";
+import * as dayjs from 'dayjs'
+import LocalizedFormat from 'dayjs/plugin/localizedFormat'
+
+dayjs.extend(LocalizedFormat)
 
 const MESSAGES_QUERY = gql`
     query GetMessages {
@@ -7,6 +11,7 @@ const MESSAGES_QUERY = gql`
             id
             content
             name
+            createdAt
         }
     }
 `
@@ -56,7 +61,7 @@ function App() {
           {
             data?.messages?.length ? data?.messages?.map(message => (
               <div key={message?.id}>
-                <small>{message?.name} said:</small>
+                <small>On {dayjs(message?.createdAt).format('LLL')} {message?.name} said:</small>
                 <p>{message?.content}</p>
               </div>
             )) : null
