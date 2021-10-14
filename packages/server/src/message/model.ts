@@ -20,6 +20,12 @@ export const Message = new GraphQLObjectType({
       resolve(parent) {
         return parent?.name
       }
+    },
+    createdAt: {
+      type: GraphQLNonNull(GraphQLString),
+      resolve(parent) {
+        return parent?.createdAt
+      }
     }
   }
 })

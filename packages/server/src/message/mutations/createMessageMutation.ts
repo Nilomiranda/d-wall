@@ -17,8 +17,6 @@ export const createMessage = {
     const { content, name } = args
     const { prisma } = context
 
-    console.log('content, name', content, name)
-
     return prisma?.message?.create({
       data: {
         content,
