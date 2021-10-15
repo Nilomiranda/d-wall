@@ -1,0 +1,30 @@
+:root {
+  --d-wall-blue: #3b5998;
+  --d-wall-dark-blue: #2d3a5e;
+  --d-wall-light-blue: #8b9dc3;
+  --d-wall-lighter-blue: #dfe3ee;
+  --d-wall-light-gray: #f7f7f7;
+  --d-wall-white: #ffffff;
+
+  --d-wall-red: #FF5C58;
+  --d-wall-dark-red: #b03f3c;
+  --d-wall-light-red: #FE8F8F;
+  --d-wall-lighter-red: #FCD2D1;
+}
+
+* {
+  font-family: 'Poppins', BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+  'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  sans-serif;
+}
+
+body {
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}

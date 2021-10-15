@@ -2,6 +2,7 @@ import {FormEvent, useState} from "react";
 import {gql, useMutation, useQuery} from "@apollo/client";
 import * as dayjs from 'dayjs'
 import LocalizedFormat from 'dayjs/plugin/localizedFormat'
+import Button from "./components/button/Button";
 
 dayjs.extend(LocalizedFormat)
 
@@ -83,7 +84,9 @@ function App() {
       <br />
       <br />
 
-      <button type="submit" disabled={publishing}>{publishing ? 'Publishing' : 'Publish'}</button>
+      <Button type="submit" disabled={publishing} loading={publishing} loadingText="Publishing">Publish</Button>
+      <Button type="submit" disabled={publishing} loading={publishing} loadingText="Deleting" variant="danger">Delete</Button>
+      <Button type="submit" disabled={publishing} loading={publishing} loadingText="Editing" variant="secondary">Edit</Button>
     </form>
   )
 }
