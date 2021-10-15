@@ -1,0 +1,21 @@
+@keyframes rotation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+.loading-container {
+  display: flex;
+  align-items: center;
+
+  &__spinner {
+    animation: 1s rotation infinite linear;
+  }
+
+  &__text {
+    margin-left: 0.5rem;
+  }
+}
