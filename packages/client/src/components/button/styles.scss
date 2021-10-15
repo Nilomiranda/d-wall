@@ -18,7 +18,7 @@
     background: var(--d-wall-blue);
     color: var(--d-wall-white);
 
-    &:hover {
+    &:hover:not([disabled]) {
       background: var(--d-wall-dark-blue);
     }
   }
@@ -27,7 +27,7 @@
     background: var(--d-wall-lighter-blue);
     color: var(--d-wall-blue);
 
-    &:hover {
+    &:hover:not([disabled]) {
       background: var(--d-wall-blue);
       color: var(--d-wall-white);
     }
@@ -37,7 +37,7 @@
     background: var(--d-wall-red);
     color: var(--d-wall-white);
 
-    &:hover {
+    &:hover:not([disabled]) {
       background: var(--d-wall-dark-red);
       color: var(--d-wall-white);
     }
