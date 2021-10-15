@@ -1,0 +1,22 @@
+.message-box {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+  max-width: 420px;
+  border: 1px solid var(--d-wall-lighter-blue);
+  padding: 1rem 0.25rem;
+
+  &__author {
+    font-weight: 700;
+  }
+
+  &__content {
+    color: var(--d-wall-dark-blue);
+  }
+
+  &__timestamp {
+    align-self: flex-end;
+    color: rgba(0, 0, 0, .2);
+  }
+}

@@ -2,20 +2,10 @@ import {FormEvent, useState} from "react";
 import {gql, useMutation, useQuery} from "@apollo/client";
 import * as dayjs from 'dayjs'
 import LocalizedFormat from 'dayjs/plugin/localizedFormat'
-import Button from "./components/button/Button";
+import Button from "./shared/components/button/Button";
+import MessageList from "./messages/components/list/MessageList";
 
 dayjs.extend(LocalizedFormat)
-
-const MESSAGES_QUERY = gql`
-    query GetMessages {
-        messages {
-            id
-            content
-            name
-            createdAt
-        }
-    }
-`
 
 const PUBLISH_NEW_MESSAGE = gql`
   mutation newMessage($content: String!, $name: String) {
@@ -30,7 +20,6 @@ function App() {
   const [name, setName] = useState('')
   const [content, setContent] = useState('')
 
-  const { loading, error, data } = useQuery(MESSAGES_QUERY)
   const [publishMessage, { loading: publishing, error: newMessageError, data: publishedData }] = useMutation(PUBLISH_NEW_MESSAGE, {
     refetchQueries: [
       'GetMessages'
@@ -51,25 +40,7 @@ function App() {
     <form onSubmit={handleSubmit}>
       <div>
         <h1>Messages</h1>
-        <div style={{
-          maxHeight: '500px',
-          overflowY: 'auto',
-        }}>
-          { loading ? <strong>Loading messages...</strong> : null }
-
-          { error ? <strong>Error loading messages</strong> : null }
-
-          {
-            data?.messages?.length ? data?.messages?.map(message => (
-              <div key={message?.id}>
-                <small>On {dayjs(message?.createdAt).format('LLL')} {message?.name} said:</small>
-                <p>{message?.content}</p>
-              </div>
-            )) : null
-          }
-
-          { !loading && !error && !data?.messages?.length ? <i>No message to show</i> : null }
-        </div>
+        <MessageList />
       </div>
 
       <br />
