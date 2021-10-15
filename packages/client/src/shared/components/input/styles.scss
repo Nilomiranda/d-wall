@@ -8,12 +8,26 @@
     margin-bottom: 0.25rem;
   }
 
+  &__error {
+    font-size: .7em;
+    margin-top: 0.25rem;
+    color: var(--d-wall-red);
+  }
+
   &__field {
     border-radius: var(--d-wall-radius);
     box-shadow: none;
     border: 1px solid var(--d-wall-dark-blue);
     padding: 0.5rem 0.625rem;
     font-size: 1em;
+
+    &__error {
+      border: 2px solid var(--d-wall-dark-red);
+
+      &::placeholder {
+        color: var(--d-wall-red);
+      }
+    }
 
     &[disabled] {
       background: var(--d-wall-lighter-blue);
