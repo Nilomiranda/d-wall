@@ -84,9 +84,7 @@ function App() {
       <br />
       <br />
 
-      <Button type="submit" disabled={publishing} loading={publishing} loadingText="Publishing">Publish</Button>
-      <Button type="submit" disabled={publishing} loading={publishing} loadingText="Deleting" variant="danger">Delete</Button>
-      <Button type="submit" disabled={publishing} loading={publishing} loadingText="Editing" variant="secondary">Edit</Button>
+      <Button type="submit" disabled={publishing} loading={publishing} loadingText="Publishing" onClick={() => alert('You clicked!')}>Publish</Button>
     </form>
   )
 }
