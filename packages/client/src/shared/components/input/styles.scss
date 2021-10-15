@@ -15,6 +15,11 @@
     padding: 0.5rem 0.625rem;
     font-size: 1em;
 
+    &[disabled] {
+      background: var(--d-wall-lighter-blue);
+      cursor: not-allowed;
+    }
+
     &--block {
       width: 100%;
     }

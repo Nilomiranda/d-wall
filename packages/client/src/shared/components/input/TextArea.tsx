@@ -6,13 +6,14 @@ interface TextAreaProps {
   label?: string
   onChange?: ChangeEventHandler<HTMLTextAreaElement>
   value?: string | number | readonly string[]
+  disabled?: boolean
 }
 
-const TextArea = ({ label, placeholder, onChange = () => null, value }: TextAreaProps) => {
+const TextArea = ({ label, placeholder, value, onChange = () => null, disabled = false }: TextAreaProps) => {
   return (
     <div className="input">
       { label ? <span className="input__label">{label}</span> : null}
-      <textarea className="input__field" placeholder={placeholder} onChange={onChange} value={value} />
+      <textarea disabled={disabled} className="input__field" placeholder={placeholder} onChange={onChange} value={value} />
     </div>
   )
 }

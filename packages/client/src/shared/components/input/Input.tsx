@@ -7,13 +7,14 @@ interface InputProps {
   type?: HTMLInputTypeAttribute
   onChange?: ChangeEventHandler<HTMLInputElement>
   value?: string | number | readonly string[]
+  disabled?: boolean
 }
 
-const Input = ({ label, placeholder, type = 'text', onChange = () => null, value }: InputProps) => {
+const Input = ({ label, placeholder, value, type = 'text', onChange = () => null, disabled = false }: InputProps) => {
   return (
     <div className="input">
       { label ? <span className="input__label">{label}</span> : null}
-      <input className="input__field" type={type} placeholder={placeholder} onChange={onChange} value={value} />
+      <input className="input__field" disabled={disabled} type={type} placeholder={placeholder} onChange={onChange} value={value} />
     </div>
   )
 }
