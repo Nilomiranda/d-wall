@@ -4,6 +4,8 @@ import * as dayjs from 'dayjs'
 import LocalizedFormat from 'dayjs/plugin/localizedFormat'
 import Button from "./shared/components/button/Button";
 import MessageList from "./messages/components/list/MessageList";
+import Input from "./shared/components/input/Input";
+import TextArea from "./shared/components/input/TextArea";
 
 dayjs.extend(LocalizedFormat)
 
@@ -47,11 +49,11 @@ function App() {
       <hr />
       <br />
 
-      <input placeholder="Name (optional)" type="text" value={name} onChange={({ target: { value } }) => setName(value)} />
+      <Input label="Name (optional)" placeholder="Someone Cool" type="text" value={name} onChange={({ target: { value } }) => setName(value)} />
       <br />
       <br />
 
-      <textarea placeholder="Your message..." value={content} onChange={({ target: { value } }) => setContent(value)} />
+      <TextArea placeholder="Your message..." value={content} onChange={({ target: { value } }) => setContent(value)} />
       <br />
       <br />
 

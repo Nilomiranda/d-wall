@@ -1,0 +1,22 @@
+.input {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  &__label {
+    font-size: .9em;
+    margin-bottom: 0.25rem;
+  }
+
+  &__field {
+    border-radius: var(--d-wall-radius);
+    box-shadow: none;
+    border: 1px solid var(--d-wall-dark-blue);
+    padding: 0.5rem 0.625rem;
+    font-size: 1em;
+
+    &--block {
+      width: 100%;
+    }
+  }
+}
