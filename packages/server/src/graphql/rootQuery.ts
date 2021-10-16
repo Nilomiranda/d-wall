@@ -2,6 +2,7 @@ import {GraphQLList, GraphQLObjectType, GraphQLSchema, GraphQLString} from "grap
 import {Message} from "../message/model";
 import {listMessages} from "../message/resolvers";
 import {createMessage} from "../message/mutations/createMessageMutation";
+import {createUser} from "../user/mutations/createUser";
 
 export const rootSchema = new GraphQLSchema({
   query: new GraphQLObjectType({
@@ -26,6 +27,7 @@ export const rootSchema = new GraphQLSchema({
     name: 'RooMutation',
     fields: {
       createMessage,
+      createUser,
     }
   })
 })
