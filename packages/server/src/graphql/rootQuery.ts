@@ -3,6 +3,7 @@ import {Message} from "../message/model";
 import {listMessages} from "../message/resolvers";
 import {createMessage} from "../message/mutations/createMessageMutation";
 import {createUser} from "../user/mutations/createUser";
+import {createSession} from "../session/mutations/createSession";
 
 export const rootSchema = new GraphQLSchema({
   query: new GraphQLObjectType({
@@ -28,6 +29,7 @@ export const rootSchema = new GraphQLSchema({
     fields: {
       createMessage,
       createUser,
+      createSession,
     }
   })
 })

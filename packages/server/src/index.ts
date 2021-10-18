@@ -42,7 +42,16 @@ async function startApolloServer() {
   app.context.prisma = prisma
 
   app.use(cors({
+    origin: (ctx) => {
+      const validDomains = ['https://studio.apollographql.com'];
+      console.log('ctx.request.header.origin', ctx.request.header.origin)
+      if (validDomains.indexOf(ctx.request.header.origin) !== -1) {
+        return ctx.request.header.origin;
+      }
+      return validDomains[0]; // we can't return void, so let's return one of the valid domains
+    },
     allowMethods: ['OPTIONS', 'GET', 'HEAD', 'POST', 'DELETE', 'PATCH'],
+    credentials: true,
   }))
 
   app.use(bodyParser())
