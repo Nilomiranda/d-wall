@@ -1,5 +1,6 @@
 import {User} from "../model";
 import {GraphQLNonNull, GraphQLString} from "graphql";
+import * as bcrypt from 'bcrypt'
 import {ApplicationContext} from "../../globalInterfaces";
 
 export const createUser = {
@@ -10,17 +11,27 @@ export const createUser = {
     },
     email: {
       type: GraphQLNonNull(GraphQLString)
+    },
+    password: {
+      type: GraphQLNonNull(GraphQLString)
     }
   },
-  resolve(parent, args, context: ApplicationContext) {
-    const { name, email } = args
+  async resolve(parent, args, context: ApplicationContext) {
+    const { name, email, password } = args
     const { prisma } = context
+
+    const hashedPassword = await hashPassword(password)
 
     return prisma.user.create({
       data: {
         name,
-        email
+        email,
+        password: hashedPassword
       }
     })
   }
+}
+
+const hashPassword = (password: string) => {
+  return bcrypt.hash(password, 12)
 }
