@@ -1,6 +1,12 @@
 import {GraphQLNonNull, GraphQLString} from "graphql";
 import {Message} from "../model";
 import {ApplicationContext} from "../../globalInterfaces";
+import {authGuard} from "../../session/authGuard";
+import {createNewMessage} from "../resolvers";
+
+export interface CreateMessageInput {
+  content: string
+}
 
 export const createMessage = {
   type: Message,
@@ -8,20 +14,8 @@ export const createMessage = {
     content: {
       type: GraphQLNonNull(GraphQLString),
     },
-    name: {
-      type: GraphQLString,
-      defaultValue: 'Anonymous',
-    },
   },
-  resolve(parent, args, context: ApplicationContext) {
-    const { content, name } = args
-    const { prisma } = context
-
-    return prisma?.message?.create({
-      data: {
-        content,
-        name
-      }
-    })
+  async resolve(parent, args: CreateMessageInput, context: ApplicationContext) {
+    return (await authGuard(createNewMessage, context))(context, args)
   }
 }

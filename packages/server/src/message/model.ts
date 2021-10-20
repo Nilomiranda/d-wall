@@ -1,4 +1,5 @@
 import {GraphQLFloat, GraphQLID, GraphQLInt, GraphQLNonNull, GraphQLObjectType, GraphQLString} from "graphql";
+import {User} from "../user/model";
 
 export const Message = new GraphQLObjectType({
   name: 'MessagesQuery',
@@ -15,10 +16,10 @@ export const Message = new GraphQLObjectType({
         return parent?.content
       }
     },
-    name: {
-      type: GraphQLNonNull(GraphQLString),
+    user: {
+      type: User,
       resolve(parent) {
-        return parent?.name
+        return parent?.user
       }
     },
     createdAt: {
