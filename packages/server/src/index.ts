@@ -8,6 +8,7 @@ import { ApolloServer } from 'apollo-server-koa';
 import { ApolloServerPluginDrainHttpServer } from 'apollo-server-core';
 import * as http from "http";
 import {rootSchema} from "./graphql/rootQuery";
+import {decodeTokenAndGetUser} from "./session/authGuard";
 
 const prisma = new PrismaClient()
 
@@ -23,8 +24,10 @@ async function startApolloServer() {
   const httpServer = http.createServer();
   const server = new ApolloServer({
     schema: rootSchema,
-    context: ({ ctx }) => {
+    context: async ({ ctx }) => {
       Object.assign(ctx, { prisma })
+      const loggedUser = await decodeTokenAndGetUser(ctx)
+      Object.assign(ctx, { user: loggedUser })
       return ctx
     },
     plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],

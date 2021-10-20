@@ -1,3 +1,4 @@
+import { User } from '@prisma/client';
 import * as jwt from 'jsonwebtoken'
 import {ApplicationContext} from "../globalInterfaces";
 
@@ -8,32 +9,36 @@ interface DecodedJWTToken {
 }
 
 export const authGuard = async (guardedFunction: (...params) => void | Promise<any>, context: ApplicationContext) => {
+  const { user } = context
+
+  if (!user) {
+    throw new Error('Authenticate first')
+  }
+
+  return guardedFunction
+}
+
+export const decodeTokenAndGetUser = async (context: ApplicationContext): Promise<User | null> => {
   const { prisma } = context
   const token = context.cookies.get('token')
 
   if (!token) {
-    throw new Error('Authenticate first')
+    return null
   }
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET) as unknown as DecodedJWTToken
 
     if (!decoded || !decoded.userId) {
-      throw new Error('Authenticate first')
+      return null
     }
 
-    const user = await prisma.user.count({
+    return prisma.user.findUnique({
       where: {
         id: decoded.userId
       }
     })
-
-    if (!user) {
-      throw new Error('Authenticate first')
-    }
-
-    return guardedFunction
   } catch {
-    throw new Error('Authenticate first')
+    return null
   }
 }
