@@ -38,23 +38,23 @@ const RegisterPage = () => {
   }
 
   return (
-    <main className="login-page">
-      <form onSubmit={handleSubmit} className="login-page__form">
+    <main className="register-page">
+      <form onSubmit={handleSubmit} className="register-page__form">
         <h1>Create your account</h1>
 
-        <div className="login-page__form__input">
+        <div className="register-page__form__input">
           <Input required placeholder="Ex.: name@domain.com" label="Email" type="email" value={email} onChange={({ target: { value } }) => setEmail(value)} />
         </div>
 
-        <div className="login-page__form__input">
+        <div className="register-page__form__input">
           <Input required placeholder="A nice name" label="Name" type="text" value={name} onChange={({ target: { value } }) => setName(value)} />
         </div>
 
-        <div className="login-page__form__input">
+        <div className="register-page__form__input">
           <Input required placeholder="A safe password" label="Name" type="password" value={password} onChange={({ target: { value } }) => setPassword(value)} />
         </div>
 
-        <div className="login-page__form__footer">
+        <div className="register-page__form__footer">
           <Button type="submit" disabled={!email || !name || !password} loading={submitting} loadingText="Creating account">Create account</Button>
         </div>
 
