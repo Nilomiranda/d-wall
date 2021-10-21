@@ -51,7 +51,7 @@ const RegisterPage = () => {
         </div>
 
         <div className="register-page__form__input">
-          <Input required placeholder="A safe password" label="Name" type="password" value={password} onChange={({ target: { value } }) => setPassword(value)} />
+          <Input required placeholder="A safe password" label="Password" type="password" value={password} onChange={({ target: { value } }) => setPassword(value)} />
         </div>
 
         <div className="register-page__form__footer">
