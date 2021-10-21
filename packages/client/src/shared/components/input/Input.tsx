@@ -9,9 +9,10 @@ interface InputProps {
   value?: string | number | readonly string[]
   disabled?: boolean
   error?: string
+  required?: boolean
 }
 
-const Input = ({ label, placeholder, value, error, type = 'text', onChange = () => null, disabled = false }: InputProps) => {
+const Input = ({ label, placeholder, value, error, type = 'text', onChange = () => null, disabled = false, required = false }: InputProps) => {
   const getInputFieldClasses = useMemo(() => {
     if (error) {
       return 'input__field input__field__error';
@@ -23,7 +24,7 @@ const Input = ({ label, placeholder, value, error, type = 'text', onChange = () 
   return (
     <div className="input">
       { label ? <span className="input__label">{label}</span> : null}
-      <input className={getInputFieldClasses} disabled={disabled} type={type} placeholder={placeholder} onChange={onChange} value={value} />
+      <input className={getInputFieldClasses} disabled={disabled} type={type} placeholder={placeholder} onChange={onChange} value={value} required={required} />
       { error ? <span className="input__error">{error}</span> : null }
     </div>
   )
