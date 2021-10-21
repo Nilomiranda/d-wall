@@ -43,6 +43,12 @@ const Button = ({ children, type = 'button', disabled = false, loading = false, 
     return baseClass
   }, [variant, disabled])
 
+  const getDisabledState = useMemo(() => {
+    if (disabled || loading) {
+      return true
+    }
+  }, [disabled, loading])
+
   const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
     if (type === 'button') {
       onClick(event)
@@ -50,7 +56,7 @@ const Button = ({ children, type = 'button', disabled = false, loading = false, 
   }
 
   return (
-    <button className={getButtonClasses} type={type} disabled={disabled} onClick={handleClick}>{getButtonLabel}</button>
+    <button className={getButtonClasses} type={type} disabled={getDisabledState} onClick={handleClick}>{getButtonLabel}</button>
   )
 }
 
