@@ -9,7 +9,7 @@ interface MessageBoxProps {
 const MessageBox = ({ message }: MessageBoxProps) => {
   return (
     <div className="message-box">
-      <small className="message-box__author">{message?.name}</small>
+      <small className="message-box__author">{message?.user?.name}</small>
       <p className="message-box__content">{message?.content}</p>
       <span className="message-box__timestamp">{dayjs(message?.createdAt).format('ll')}</span>
     </div>

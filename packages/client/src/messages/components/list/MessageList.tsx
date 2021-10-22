@@ -9,8 +9,10 @@ const MESSAGES_QUERY = gql`
         messages {
             id
             content
-            name
             createdAt
+            user {
+                name
+            }
         }
     }
 `
