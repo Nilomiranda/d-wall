@@ -40,18 +40,17 @@ async function startApolloServer() {
   server.applyMiddleware({
     app,
     cors: {
-    origin: (ctx) => {
+      origin: (ctx) => {
         const validDomains = ['http://localhost:4000'];
         if (validDomains.indexOf(ctx.request.header.origin) !== -1) {
-           return ctx.request.header.origin;
+          return ctx.request.header.origin;
         }
         return validDomains[0];
       },
-        allowMethods: 'GET,HEAD,PUT,POST,DELETE,PATCH,OPTIONS',
-        credentials: true,
-      }
+      allowMethods: 'GET,HEAD,PUT,POST,DELETE,PATCH,OPTIONS',
+      credentials: true,
     }
-  );
+  });
 
   httpServer.on('request', app.callback());
   await new Promise((resolve) => httpServer.listen({ port: process.env.PORT }, () => resolve(1)));
