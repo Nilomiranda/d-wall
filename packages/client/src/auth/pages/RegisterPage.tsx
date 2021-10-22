@@ -34,7 +34,7 @@ const RegisterPage = () => {
       }
     })
 
-    history.push(`/login?email=${email}&new=true`)
+    history.push('/login')
   }
 
   return (
