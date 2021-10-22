@@ -1,7 +1,5 @@
 import Koa from 'koa'
 import dotenv from 'dotenv'
-import cors from '@koa/cors'
-import router from './routes'
 import bodyParser from 'koa-bodyparser'
 import { PrismaClient } from '@prisma/client'
 import { ApolloServer } from 'apollo-server-koa';
@@ -21,6 +19,8 @@ async function startApolloServer() {
     console.error("🔴 Error trying to connect to prisma client", err)
   })
 
+  const app = new Koa();
+
   const httpServer = http.createServer();
   const server = new ApolloServer({
     schema: rootSchema,
@@ -35,30 +35,29 @@ async function startApolloServer() {
 
   await server.start();
 
-  const app = new Koa();
+  app.use(bodyParser())
 
-  server.applyMiddleware({ app });
+  server.applyMiddleware({
+    app,
+    cors: {
+    origin: (ctx) => {
+        const validDomains = ['http://localhost:4000'];
+        if (validDomains.indexOf(ctx.request.header.origin) !== -1) {
+           return ctx.request.header.origin;
+        }
+        return validDomains[0];
+      },
+        allowMethods: 'GET,HEAD,PUT,POST,DELETE,PATCH,OPTIONS',
+        credentials: true,
+      }
+    }
+  );
+
   httpServer.on('request', app.callback());
   await new Promise((resolve) => httpServer.listen({ port: process.env.PORT }, () => resolve(1)));
   console.log(`🚀 Server ready at http://localhost:${process.env.PORT}${server.graphqlPath}`);
 
   app.context.prisma = prisma
-
-  app.use(cors({
-    origin: (ctx) => {
-      const validDomains = ['https://studio.apollographql.com'];
-      console.log('ctx.request.header.origin', ctx.request.header.origin)
-      if (validDomains.indexOf(ctx.request.header.origin) !== -1) {
-        return ctx.request.header.origin;
-      }
-      return validDomains[0]; // we can't return void, so let's return one of the valid domains
-    },
-    allowMethods: ['OPTIONS', 'GET', 'HEAD', 'POST', 'DELETE', 'PATCH'],
-    credentials: true,
-  }))
-
-  app.use(bodyParser())
-  app.use(router.routes())
 }
 
 console.log('🟢 About to start apollo server...')
