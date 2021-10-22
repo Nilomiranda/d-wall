@@ -20,8 +20,8 @@ export const rootSchema = new GraphQLSchema({
       },
       messages: {
         type: new GraphQLList(Message),
-        resolve(parent, args, context) {
-          return listMessages(context)
+        async resolve(parent, args, context) {
+          return (await authGuard(listMessages, context))(context)
         }
       },
       user: {

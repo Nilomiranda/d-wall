@@ -3,7 +3,11 @@ import {CreateMessageInput} from "./mutations/createMessageMutation";
 
 export const listMessages = (context: ApplicationContext) => {
   const { prisma } = context
-  return prisma?.message?.findMany()
+  return prisma?.message?.findMany({
+    include: {
+      user: true
+    }
+  })
 }
 
 export const createNewMessage = async (context: ApplicationContext, input: CreateMessageInput) => {
