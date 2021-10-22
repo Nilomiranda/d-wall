@@ -3,6 +3,20 @@ import Input from "../../shared/components/input/Input";
 import {FormEvent, useState} from "react";
 import Button from "../../shared/components/button/Button";
 import {Link, useHistory} from "react-router-dom";
+import {gql, useMutation} from "@apollo/client";
+
+const SIGN_IN = gql`
+    mutation newSession($email: String!, $password: String!) {
+        createSession(email: $email, password: $password) {
+            user {
+                id
+                name
+                email
+            }
+            token
+        }
+    }
+`
 
 const LoginPage = () => {
   const history = useHistory()
@@ -10,9 +24,21 @@ const LoginPage = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
+  const [signIn, { loading: signingIn }] = useMutation(SIGN_IN)
+
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    history.push('/wall')
+    try {
+      await signIn({
+        variables: {
+          email,
+          password
+        }
+      })
+      history.push('/wall')
+    } catch (err: any) {
+      alert(err.message)
+    }
   }
 
   return (
@@ -29,7 +55,7 @@ const LoginPage = () => {
         </div>
 
         <div className="login-page__form__footer">
-          <Button type="submit" disabled={!email || !password} loadingText="Signing in">Sign in</Button>
+          <Button type="submit" disabled={!email || !password} loading={signingIn} loadingText="Signing in">Sign in</Button>
         </div>
 
         <p>Don't have an account? <Link to="/register">Create one.</Link></p>
