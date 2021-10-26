@@ -27,8 +27,8 @@ const MessageList = () => {
       { error ? <strong>Error loading messages</strong> : null }
        {
          data?.messages?.length ? data?.messages?.map((message: Message) => (
-           <div style={{ marginBottom: '1rem' }}>
-             <MessageBox message={message} key={message?.id} />
+           <div style={{ marginBottom: '1rem' }} key={message?.id}>
+             <MessageBox message={message} />
            </div>
          )) : null
        }
